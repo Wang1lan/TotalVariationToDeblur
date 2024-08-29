@@ -74,7 +74,7 @@ for i = 1:maxiter
     end
     u = unext;
     figure(11111), 
-    subplot(131),imshow(u,[]), title(['迭代次数= ', num2str(i)]);
+    subplot(131),imshow(u,[]), title(['迭代次数 ', num2str(i), ' / ', num2str(maxiter)]);
     subplot(132),semilogy(U, '*-'),xlim([1, maxiter]), title('norm(unext - u, 2)');xlabel('iteration');grid on;grid minor;
     subplot(133),semilogy(L_u, '*-'),xlim([1, maxiter]), title('L(u)');xlabel('iteration');grid on;grid minor;
     drawnow();
