@@ -48,7 +48,7 @@ figure,imshow(blur,[]);
 %% 模型构建
 lambda = 1e-2;
 A = @(u) imfilter(u, h, "symmetric", "same", "conv");
-AT = @(u) imfilter(u, rot90(h,2), "symmetric", "same", "conv");
+AT = @(u) imfilter(u, rot90(h,2), "symmetric", "same", "conv"); % 卷积矩阵的转置
 Dx = @(u) [diff(u, 1, 2), u(:,1) - u(:,end)]; % x方向的梯度,列之间做差
 Dy = @(u) [diff(u, 1, 1); u(1,:) - u(end,:)];
 Ddeno = @(u) sqrt(Dx(u).^2 + Dy(u).^2 + eps);
