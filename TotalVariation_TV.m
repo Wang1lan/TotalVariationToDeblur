@@ -16,7 +16,6 @@ if numGPUs > 0
 end
 
 h = im2double(imread('5de_100sp_10as_30Xc.png'));
-% h = gpuArray(h);
 % blur = conv2(original_image, h, "same"); 
 % 由于卷积核为51×51，过大，利用conv2卷积，因为进行补零填充操作，结果图会形成周围的黑边，故用imfilter函数
 blur = imfilter(original_image, h, "symmetric", "same", "conv"); % symmetric：对称填充
@@ -61,14 +60,14 @@ tau = 1e-3; % 迭代步长，控制收敛速度
 maxiter = 800;
 u = blur; % 初始化
 U = zeros(maxiter, 1);
-L_X = zeros(maxiter, 1);
+L_u = zeros(maxiter, 1);
 
 for i = 1:maxiter
 
     unext = u - tau * D(u, blur);% 梯度下降
     
     U(i) = norm(unext - u, 2);
-    L_X(i) = L(u, blur);
+    L_u(i) = L(u, blur);
 
     if U(i) < 1e-5
         break;
@@ -77,7 +76,7 @@ for i = 1:maxiter
     figure(11111), 
     subplot(131),imshow(u,[]), title(['迭代次数= ', num2str(i)]);
     subplot(132),semilogy(U, '*-'),xlim([1, maxiter]), title('norm(unext - u, 2)');xlabel('iteration');grid on;grid minor;
-    subplot(133),semilogy(L_X, '*-'),xlim([1, maxiter]), title('L(u)');xlabel('iteration');grid on;grid minor;
+    subplot(133),semilogy(L_u, '*-'),xlim([1, maxiter]), title('L(u)');xlabel('iteration');grid on;grid minor;
     drawnow();
 
 end
