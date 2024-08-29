@@ -21,7 +21,7 @@ noise = 0.001*randn(size(original_image)); % 方差为0.001的噪声
 blur = blur + noise; 
 
 %% 模型构建
-lambda = 1e-3;
+lambda = 1e-4;
 A = @(u) imfilter(u, h, "symmetric", "same", "conv");
 AT = @(u) imfilter(u, rot90(h,2), "symmetric", "same", "conv");% 卷积矩阵的转置
 Dx = @(u) [diff(u, 1, 2), u(:,1) - u(:,end)]; % x方向的梯度,列之间做差
@@ -38,7 +38,7 @@ x = zeros(size(original_image));
 r = DAcg(x) - b0;
 p = r;
 rho0 = r(:)'*r(:);
-maxiter = 600;
+maxiter = 800;
 L_u = zeros(maxiter, 1);
 RHO = zeros(maxiter, 1);
 
