@@ -52,9 +52,9 @@ AT = @(u) imfilter(u, rot90(h,2), "symmetric", "same", "conv"); % 卷积矩阵�
 Dx = @(u) [diff(u, 1, 2), u(:,1) - u(:,end)]; % x方向的梯度,列之间做差
 Dy = @(u) [diff(u, 1, 1); u(1,:) - u(end,:)];
 Ddeno = @(u) sqrt(Dx(u).^2 + Dy(u).^2 + eps);
-D = @(u, f) AT(A(u) - f) + lambda*(Dx(Dx(u) ./ Ddeno(u)) + Dy(Dy(u) ./ Ddeno(u))); % L(x)梯度
-L2 = @(x) power(norm(x, 'fro'),2);
-L = @(u,f) 1/2*L2(A(u)-f) + lambda*sum(sum(sqrt(Dx(u).^2 + Dy(u).^2)));% L(x)
+D = @(u, f) AT(A(u) - f) + lambda*(Dx(Dx(u) ./ Ddeno(u)) + Dy(Dy(u) ./ Ddeno(u))); % L(u)梯度
+L2 = @(u) power(norm(u, 'fro'),2);
+L = @(u,f) 1/2*L2(A(u)-f) + lambda*sum(sum(sqrt(Dx(u).^2 + Dy(u).^2)));% L(u)
 
 %% 迭代求解
 tau = 1e-3; % 迭代步长，控制收敛速度
